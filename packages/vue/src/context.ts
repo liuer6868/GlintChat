@@ -1,38 +1,38 @@
 /**
- * 面板上下文：把配置、客户端、存储、确认弹窗打包成一个对象，
- * 通过 provide/inject 下发到子组件（多实例场景下每个面板一份）。
+ * 闈㈡澘涓婁笅鏂囷細鎶婇厤缃€佸鎴风銆佸瓨鍌ㄣ€佺‘璁ゅ脊绐楁墦鍖呮垚涓€涓璞★紝
+ * 閫氳繃 provide/inject 涓嬪彂鍒板瓙缁勪欢锛堝瀹炰緥鍦烘櫙涓嬫瘡涓潰鏉夸竴浠斤級銆?
  */
 import { inject, provide, ref, type InjectionKey, type Ref } from 'vue';
-import { createChatClient, type ChatClient } from '../core/stream';
+import { createChatClient, type ChatClient } from '../core/stream.ts';
 import {
   createLocalStorage,
   createMemoryStorage,
   type GlintChatStorage,
-} from '../core/storage';
-import { DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT, type PublicModel } from '../core/types';
+} from '../core/storage.ts';
+import { DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT, type PublicModel } from '../core/types.ts';
 
 export interface GlintChatOptions {
-  /** 后端地址前缀（含路由前缀），默认 '/api'；跨域时写完整地址 */
+  /** 鍚庣鍦板潃鍓嶇紑锛堝惈璺敱鍓嶇紑锛夛紝榛樿 '/api'锛涜法鍩熸椂鍐欏畬鏁村湴鍧€ */
   apiBase?: string;
-  /** 存储命名空间，多个面板必须不同，默认 'glintchat' */
+  /** 瀛樺偍鍛藉悕绌洪棿锛屽涓潰鏉垮繀椤讳笉鍚岋紝榛樿 'glintchat' */
   namespace?: string;
-  /** 是否持久化到 localStorage，默认 true */
+  /** 鏄惁鎸佷箙鍖栧埌 localStorage锛岄粯璁?true */
   persist?: boolean;
-  /** 自定义存储适配器（优先级高于 persist） */
+  /** 鑷畾涔夊瓨鍌ㄩ€傞厤鍣紙浼樺厛绾ч珮浜?persist锛?*/
   storage?: GlintChatStorage;
-  /** 额外请求头，支持函数形式动态取 token */
+  /** 棰濆璇锋眰澶达紝鏀寔鍑芥暟褰㈠紡鍔ㄦ€佸彇 token */
   headers?: Record<string, string> | (() => Record<string, string>);
-  /** 自定义 fetch */
+  /** 鑷畾涔?fetch */
   fetch?: typeof globalThis.fetch;
-  /** 默认模型 id */
+  /** 榛樿妯″瀷 id */
   defaultModel?: string;
-  /** 默认系统提示词 */
+  /** 榛樿绯荤粺鎻愮ず璇?*/
   defaultSystemPrompt?: string;
-  /** 外部已拿到模型列表时可直接传入，省一次请求 */
+  /** 澶栭儴宸叉嬁鍒版ā鍨嬪垪琛ㄦ椂鍙洿鎺ヤ紶鍏ワ紝鐪佷竴娆¤姹?*/
   models?: PublicModel[];
-  /** 整体替换 Markdown 渲染器 */
+  /** 鏁翠綋鏇挎崲 Markdown 娓叉煋鍣?*/
   renderMarkdown?: (source: string) => string;
-  /** 主题：'inherit'（跟随宿主 html.dark，默认）| 'light' | 'dark' | 'auto' */
+  /** 涓婚锛?inherit'锛堣窡闅忓涓?html.dark锛岄粯璁わ級| 'light' | 'dark' | 'auto' */
   theme?: 'inherit' | 'light' | 'dark' | 'auto';
 }
 
@@ -41,11 +41,11 @@ export interface GlintChatContext {
     Pick<GlintChatOptions, 'storage' | 'headers' | 'fetch' | 'renderMarkdown'>;
   client: ChatClient;
   storage: GlintChatStorage;
-  /** 共享的模型列表（header 与面板共用一份） */
+  /** 鍏变韩鐨勬ā鍨嬪垪琛紙header 涓庨潰鏉垮叡鐢ㄤ竴浠斤級 */
   models: Ref<PublicModel[]>;
-  /** 当前会话的模型 id */
+  /** 褰撳墠浼氳瘽鐨勬ā鍨?id */
   modelId: Ref<string>;
-  /** 当前会话的系统提示词 */
+  /** 褰撳墠浼氳瘽鐨勭郴缁熸彁绀鸿瘝 */
   systemPrompt: Ref<string>;
 }
 
@@ -87,7 +87,7 @@ export function provideGlintChat(context: GlintChatContext): GlintChatContext {
   return context;
 }
 
-/** 子组件取上下文；未提供时返回 undefined（组件据此退化为纯展示组件） */
+/** 瀛愮粍浠跺彇涓婁笅鏂囷紱鏈彁渚涙椂杩斿洖 undefined锛堢粍浠舵嵁姝ら€€鍖栦负绾睍绀虹粍浠讹級 */
 export function useGlintChatContext(): GlintChatContext | undefined {
   return inject(GLINTCHAT_KEY, undefined);
 }

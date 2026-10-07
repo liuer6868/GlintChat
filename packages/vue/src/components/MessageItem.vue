@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import AssistantBubble from './AssistantBubble.vue';
 import UserBubble from './UserBubble.vue';
-import type { ChatMessage } from '../core/types';
+import type { ChatMessage } from '../core/types.ts';
 
 const props = defineProps<{
   message: ChatMessage;

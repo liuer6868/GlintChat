@@ -30,7 +30,7 @@ import PanelHeader from './components/PanelHeader.vue';
 import Sidebar from './components/Sidebar.vue';
 import SystemPromptDialog from './components/SystemPromptDialog.vue';
 import ThinkingPanel from './components/ThinkingPanel.vue';
-import type { GlintChatOptions } from './context';
+import type { GlintChatOptions } from './context.ts';
 
 export interface GlintChatPluginOptions extends GlintChatOptions {
   /**
@@ -88,14 +88,14 @@ export {
   GLINTCHAT_KEY,
   type GlintChatContext,
   type GlintChatOptions,
-} from './context';
+} from './context.ts';
 export {
   createChatController,
   createSession,
   buildTitle,
   type ChatController,
   type ChatControllerOptions,
-} from './composables/useChat';
+} from './composables/useChat.ts';
 export {
   createConfirmService,
   provideConfirm,
@@ -103,13 +103,13 @@ export {
   CONFIRM_KEY,
   type ConfirmService,
   type ConfirmOptions,
-} from './composables/useConfirm';
+} from './composables/useConfirm.ts';
 export {
   createThemeController,
   type ThemeController,
   type ThemeOptions,
   type ThemeValue,
-} from './composables/useTheme';
+} from './composables/useTheme.ts';
 
 /* --------------------------------- 核心层 --------------------------------- */
 export {
@@ -123,7 +123,7 @@ export {
   type StreamCallbacks,
   type StreamResult,
   type StreamStats,
-} from './core/stream';
+} from './core/stream.ts';
 export {
   createLocalStorage,
   createMemoryStorage,
@@ -133,12 +133,12 @@ export {
   removeStoredSessions,
   sessionsKey,
   type GlintChatStorage,
-} from './core/storage';
+} from './core/storage.ts';
 export {
   renderMarkdown,
   highlightCode,
   escapeHtml,
   type HighlightResult,
-} from './core/markdown';
-export { uuid } from './core/uuid';
-export * from './core/types';
+} from './core/markdown.ts';
+export { uuid } from './core/uuid.ts';
+export * from './core/types.ts';

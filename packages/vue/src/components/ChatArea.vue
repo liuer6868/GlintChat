@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import Icon from './Icon.vue';
 import MessageItem from './MessageItem.vue';
-import type { ChatMessage, PublicModel } from '../core/types';
+import type { ChatMessage, PublicModel } from '../core/types.ts';
 
 const props = defineProps<{
   messages: ChatMessage[];

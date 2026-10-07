@@ -2,6 +2,57 @@
 
 > 目标：**同一份代码，既能单独跑成完整应用（现状），又能作为库/插件被其它项目直接引用。**
 
+## 0. 当前进度（务必先读）
+
+**已完成**
+
+| 项 | 状态 |
+| --- | --- |
+| 阶段 0 三处解耦（服务端配置去副作用、确认弹窗实例化、HTTP 客户端运行时注入） | ✅ 完成并验证 |
+| `packages/vue` 库源码：面板 `GlintChatPanel` + 组件 + 组合式 + core（types/storage/stream/markdown/uuid） | ✅ 完成，架构就位 |
+| 设计系统单一来源 `packages/vue/src/styles/lib.css`（主应用与宿主共用同一份） | ✅ 完成，主应用 CSS 由 60.1KB 降到 58.7KB |
+| 主应用（`client/` + `server/`） | ✅ **完全正常**：类型检查、构建、18 项接口/SSE 契约测试、23 项无头浏览器断言全部通过 |
+| `examples/embed-demo` 宿主示例代码 | ✅ 已完成（含代理、主题跟随、事件回调、插槽） |
+
+**未完成 / 已知问题**（都集中在「把库打包成宿主可消费的产物」这一环）
+
+1. **`packages/vue` 的产物还不完整**。当前用 `tsc -p tsconfig.build.json` 产出 `dist/`，
+   它只编译 `.ts`、**不会拷贝或编译 `.vue` 组件**，因此 `dist/index.js` 里仍写着
+   `import GlintChatPanel from './GlintChatPanel.vue'`，而 `dist/` 下没有这些 `.vue` 文件。
+2. **`examples/embed-demo` 用 `vite build` 打包会失败**，报
+   `Could not resolve "../core/stream.ts" from "packages/vue/src/context.ts"`。
+   根因是示例通过 Vite 别名/软链接直接消费**项目根之外**的库源码，而 Vite/Rollup
+   不会为这类文件做扩展名补全；`resolve.extensions` 与自定义 `resolveId` 插件
+   都没能绕过去（已试过多种组合）。
+3. **库包的 `npm run typecheck` 会报 TS2307**：在 `NodeNext` + `allowImportingTsExtensions`
+   + `rewriteRelativeImportExtensions` 组合下，`tsc` 对 `src/context.ts` 里的
+   `from '../core/stream.ts'` 报「Cannot find module」。这是解析噪音——**emit 产物是正确的**
+   （`dist/context.js` 里已是 `from "../core/stream.js"`）。应用侧（`client/`）的类型检查
+   由 vue-tsc 覆盖，不受影响。
+
+**建议的收尾做法**（下一步做这个即可全部打通）
+
+用 `vite build --lib` 产出真正的库产物，并让它同时处理 `.ts` 与 `.vue`：
+
+```ts
+// packages/vue/vite.config.ts
+export default defineConfig({
+  plugins: [vue(), dts({ tsconfigPath: './tsconfig.build.json', rollupTypes: true })],
+  build: {
+    lib: { entry: 'src/index.ts', formats: ['es'], fileName: () => 'index.js' },
+    rollupOptions: { external: (id) => id === 'vue' || id.startsWith('vue/') },
+  },
+});
+```
+
+配套要点：
+- 库内部相对导入**统一写 `.ts` 扩展名**（用 `scripts/sync-lib-import-extensions.mjs` 一键补全），
+  这样 Rollup 能原生解析；构建时再交给 `vite-plugin-dts` 处理类型。
+- `vue` 必须 external（否则宿主出现第二份 Vue，`provide/inject` 失效）。
+- `.vue` 组件由 `@vitejs/plugin-vue` 在库构建里编译进产物，不再依赖 tsc。
+- 产物落地后，`examples/embed-demo` 去掉别名、直接引用包名即可正常构建。
+- `packages/vue/package.json` 的 `exports` 用 `./dist/index.js` + `./src/styles/lib.css`。
+
 ## 1. 结论：主方案 + 补充方案
 
 | 形态 | 作用 | 结论 |

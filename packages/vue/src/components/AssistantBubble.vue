@@ -3,8 +3,8 @@ import { computed, onMounted, ref } from 'vue';
 import Icon from './Icon.vue';
 import MessageActions from './MessageActions.vue';
 import ThinkingPanel from './ThinkingPanel.vue';
-import type { ChatMessage } from '../core/types';
-import { renderMarkdown } from '../core/markdown';
+import type { ChatMessage } from '../core/types.ts';
+import { renderMarkdown } from '../core/markdown.ts';
 
 const props = defineProps<{
   message: ChatMessage;

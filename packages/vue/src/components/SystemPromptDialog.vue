@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import Icon from './Icon.vue';
-import { DEFAULT_SYSTEM_PROMPT } from '../core/types';
+import { DEFAULT_SYSTEM_PROMPT } from '../core/types.ts';
 
 const props = defineProps<{
   open: boolean;

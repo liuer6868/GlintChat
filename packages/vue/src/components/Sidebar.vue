@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import Icon from './Icon.vue';
-import type { ChatSession } from '../core/types';
+import type { ChatSession } from '../core/types.ts';
 
 const props = defineProps<{
   sessions: ChatSession[];

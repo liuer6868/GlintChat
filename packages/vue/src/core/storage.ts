@@ -6,8 +6,8 @@
  * 2. 存储介质可替换（localStorage / 内存 / 宿主自己的 store），传 null 即内存态；
  * 3. 读取时做结构校验，脏数据不会导致宿主白屏；流式中的临时状态不落库。
  */
-import type { ChatMessage, ChatSession, MessageStatus } from './types';
-import { DEFAULT_MODEL_ID, DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT } from './types';
+import type { ChatMessage, ChatSession, MessageStatus } from './types.ts';
+import { DEFAULT_MODEL_ID, DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT } from './types.ts';
 
 /** 存储适配器：只需实现这三个方法即可接管持久化 */
 export interface GlintChatStorage {

@@ -2,7 +2,7 @@
 /** 面板顶部栏：模型选择 + 系统角色设定 + 连接状态（不含宿主品牌与主题控制） */
 import { computed } from 'vue';
 import Icon from './Icon.vue';
-import type { PublicModel } from '../core/types';
+import type { PublicModel } from '../core/types.ts';
 
 const props = defineProps<{
   models: PublicModel[];

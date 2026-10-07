@@ -8,7 +8,7 @@
  * 2. 解析逻辑与 fetch 解耦，便于单测（`createSseParser` 可单独使用）。
  * 3. 真正的结束条件是「流读到 EOF」或服务端 `[DONE]`；网络异常与业务错误分开处理。
  */
-import type { ChatMessage, PublicModel } from './types';
+import type { ChatMessage, PublicModel } from './types.ts';
 
 export interface StreamCallbacks {
   /** 收到普通增量文本 */

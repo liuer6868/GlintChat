@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { ChatMessage } from '../core/types';
-import { renderMarkdown } from '../core/markdown';
+import type { ChatMessage } from '../core/types.ts';
+import { renderMarkdown } from '../core/markdown.ts';
 
 const props = defineProps<{
   message: ChatMessage;

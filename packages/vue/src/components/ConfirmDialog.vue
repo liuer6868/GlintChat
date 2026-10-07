@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Icon from './Icon.vue';
-import { useConfirm } from '../composables/useConfirm';
+import { useConfirm } from '../composables/useConfirm.ts';
 
 // 取当前作用域的确认服务：嵌入宿主时为面板自己的实例，应用外壳下为默认单例
 const confirm = useConfirm();

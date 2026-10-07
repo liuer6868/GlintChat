@@ -7,22 +7,22 @@
  * - 支持多实例：每个控制器有独立的 namespace 与确认服务。
  */
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
-import { ApiError, type ChatClient } from '../core/stream';
+import { ApiError, type ChatClient } from '../core/stream.ts';
 import {
   estimateStorageSize,
   loadSessions,
   persistSessionsNow,
   removeStoredSessions,
   type GlintChatStorage,
-} from '../core/storage';
+} from '../core/storage.ts';
 import {
   DEFAULT_MODEL_ID,
   DEFAULT_SYSTEM_PROMPT,
   type ChatMessage,
   type ChatSession,
   type PublicModel,
-} from '../core/types';
-import { uuid } from '../core/uuid';
+} from '../core/types.ts';
+import { uuid } from '../core/uuid.ts';
 
 export interface ChatControllerOptions {
   storage: GlintChatStorage;

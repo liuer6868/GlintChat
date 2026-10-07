@@ -16,11 +16,11 @@ import ConfirmDialog from './ConfirmDialog.vue';
 import PanelHeader from './PanelHeader.vue';
 import Sidebar from './Sidebar.vue';
 import SystemPromptDialog from './SystemPromptDialog.vue';
-import { createGlintChatContext, provideGlintChat } from '../context';
-import { createChatController } from '../composables/useChat';
-import { createConfirmService, provideConfirm } from '../composables/useConfirm';
-import type { ChatMessage, ChatSession, PublicModel } from '../core/types';
-import { DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT } from '../core/types';
+import { createGlintChatContext, provideGlintChat } from '../context.ts';
+import { createChatController } from '../composables/useChat.ts';
+import { createConfirmService, provideConfirm } from '../composables/useConfirm.ts';
+import type { ChatMessage, ChatSession, PublicModel } from '../core/types.ts';
+import { DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT } from '../core/types.ts';
 
 const props = withDefaults(
   defineProps<{
