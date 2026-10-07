@@ -1,0 +1,21 @@
+# pnpm 工作区定义与配置
+# 说明：pnpm 10+ 不再支持 package.json 的 workspaces 字段，
+# 工作区与 pnpm 配置统一写在这里（.npmrc 只保留命令行相关的杂项）。
+packages:
+  - client
+  - server
+  - packages/*
+  - examples/*
+
+# 使用扁平（hoisted）node_modules：
+# pnpm 默认的符号链接布局在部分 Windows 环境 + Node 高版本下会导致
+# Vite 解析不到 rollup（ERR_MODULE_NOT_FOUND），扁平布局最稳且兼容所有工具链。
+nodeLinker: hoisted
+
+# 依赖与缓存全部落在仓库内，避免污染系统目录，也便于离线复用
+storeDir: .pnpm-store
+cacheDir: .npm-cache
+
+# 允许 esbuild 执行安装脚本（pnpm 10+ 默认拦截所有 postinstall）
+allowBuilds:
+  esbuild: true

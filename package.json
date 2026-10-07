@@ -1,0 +1,29 @@
+{
+  "name": "glintchat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GlintChat - 轻量级无数据库 AI 智能对话助手（Vue 3 + TypeScript + TailwindCSS v4 / Express 5 SSE 代理）",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "packageManager": "pnpm@11.7.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c cyan,magenta \"node scripts/dev.mjs server\" \"node scripts/dev.mjs client\"",
+    "dev:server": "node scripts/dev.mjs server",
+    "dev:client": "node scripts/dev.mjs client",
+    "build": "node scripts/run.mjs --cwd server tsc -p tsconfig.json && node scripts/run.mjs --cwd client vue-tsc -b && node scripts/run.mjs --cwd client vite build",
+    "build:quick": "node scripts/run.mjs --cwd server tsc -p tsconfig.json && node scripts/run.mjs --cwd client vite build",
+    "typecheck": "node scripts/run.mjs --cwd server tsc -p tsconfig.json --noEmit && node scripts/run.mjs --cwd client vue-tsc -b",
+    "preview": "node scripts/run.mjs --cwd client vite preview",
+    "start": "node server/dist/index.js",
+    "clean": "node -e \"const{rmSync}=require('node:fs');for(const p of ['client/dist','server/dist','.tmp'])rmSync(p,{recursive:true,force:true});console.log('cleaned')\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

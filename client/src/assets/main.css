@@ -1,0 +1,35 @@
+/**
+ * 应用外壳样式（GlintChat 主应用）
+ * ---------------------------------------------------------------------------
+ * 设计令牌、组件类（.card/.btn/.field/...）、Markdown 排版与代码高亮主题
+ * 都已经抽到 @glintchat/vue 的 lib.css 里（库与宿主共用同一份），
+ * 这里只保留「应用外壳专属」的全局规则。
+ */
+@import 'tailwindcss';
+
+/* 面板与主应用的样式单一来源 */
+@import '../../../packages/vue/src/styles/lib.css';
+
+/* 应用外壳自己的源码扫描范围 */
+@source '../../';
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-slate-100 text-slate-800 antialiased;
+    overscroll-behavior: none;
+  }
+
+  .dark body {
+    @apply bg-ink-900 text-slate-200;
+  }
+
+  ::selection {
+    @apply bg-brand-500/30;
+  }
+}

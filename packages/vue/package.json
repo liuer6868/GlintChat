@@ -1,0 +1,29 @@
+{
+  "name": "@glintchat/vue",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "可嵌入的 AI 对话面板：Vue 3 组件 + 运行时配置的 SSE 客户端（可单独使用，也可作为 GlintChat 应用的 UI 层）",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./style.css": "./src/styles/lib.css",
+    "./panel": "./src/GlintChatPanel.vue"
+  },
+  "scripts": {
+    "typecheck": "vue-tsc -b",
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.7",
+    "highlight.js": "^11.11.1",
+    "marked": "^16.4.0"
+  },
+  "devDependencies": {
+    "vue": "^3.5.22"
+  }
+}

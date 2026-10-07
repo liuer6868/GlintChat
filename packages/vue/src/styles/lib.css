@@ -1,0 +1,410 @@
+/**
+ * @glintchat/vue 设计系统（单一来源）
+ * ===========================================================================
+ * 这个文件是「组件类 + 设计令牌 + Markdown 排版」的唯一出处：
+ *   - GlintChat 主应用（client/src/assets/main.css）直接 import 它；
+ *   - 宿主项目同样 import 它，即可获得与官方应用一致的样式。
+ *
+ * 使用前提：宿主的 CSS 入口必须先 `@import 'tailwindcss';`，本文件才能被 Tailwind 编译。
+ * Tailwind v4 默认不跟随 node_modules 的符号链接扫描源码，所以下面用 @source 显式声明。
+ *
+ * 注意：本文件**不含** html/body 的全局 reset（那是应用外壳的事），
+ * 面板需要的所有样式都限定在类名下，不会污染宿主页面。
+ */
+
+/* 让 Tailwind 扫描本包组件源码（相对本文件解析） */
+@source '../components';
+@source '../GlintChatPanel.vue';
+
+/* 暗色模式：跟随宿主根节点的 .dark（也支持挂在面板容器上，用于局部深色） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------- 设计令牌 ------------------------------- */
+
+@theme {
+  --font-sans:
+    'Inter', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --font-mono:
+    'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-ink-900: #0b1120;
+  --color-ink-800: #111827;
+}
+
+/* ------------------------------- 组件类 ------------------------------- */
+
+@layer components {
+  /* 滚动条 */
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.5) transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background-color: rgb(148 163 184 / 0.45);
+    border-radius: 9999px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.7);
+  }
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5;
+  }
+
+  /* 按钮基类：Tailwind v4 不允许在 @apply 中引用自定义组件类，
+     因此每个按钮变体都重复这套基础工具类（改动时请同步）。 */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500
+      disabled:cursor-not-allowed disabled:opacity-50
+      bg-gradient-to-r from-brand-600 to-cyan-500 text-white shadow-sm
+      hover:from-brand-500 hover:to-cyan-400 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500
+      disabled:cursor-not-allowed disabled:opacity-50
+      text-slate-600 hover:bg-slate-200/70 dark:text-slate-300 dark:hover:bg-white/10;
+  }
+
+  .btn-danger {
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500
+      disabled:cursor-not-allowed disabled:opacity-50
+      text-rose-600 hover:bg-rose-100 dark:text-rose-400 dark:hover:bg-rose-500/15;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-slate-300 bg-white/80 px-3 py-2 text-slate-800 outline-none transition
+      placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25
+      dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+}
+
+/* ------------------------------- 动画工具 ------------------------------- */
+
+@layer utilities {
+  /* 打字机光标 */
+  .typing-caret::after {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 1.05em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: currentColor;
+    border-radius: 1px;
+    animation: caret-blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes caret-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .fade-in-up {
+    animation: fade-in-up 0.24s ease-out both;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .thinking-shimmer {
+    background: linear-gradient(
+      90deg,
+      currentColor 0%,
+      currentColor 35%,
+      transparent 50%,
+      currentColor 65%,
+      currentColor 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 150% 0;
+    }
+    to {
+      background-position: -50% 0;
+    }
+  }
+}
+
+/* ===========================================================================
+ * Markdown 排版 + 代码高亮主题
+ * 不引入 highlight.js 自带 css，按站点色板自定义，避免主题冲突。
+ * =========================================================================== */
+
+.code-block {
+  @apply my-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-slate-950/70;
+}
+
+.code-block__bar {
+  @apply flex items-center justify-between border-b border-slate-200 bg-slate-100/80 px-3 py-1.5
+    dark:border-white/10 dark:bg-white/5;
+}
+
+.code-block__lang {
+  @apply font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400;
+}
+
+.code-copy-btn {
+  @apply cursor-pointer rounded-md px-2 py-0.5 text-[11px] font-medium text-slate-500 transition
+    hover:bg-slate-200 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white;
+}
+
+.code-block__pre {
+  @apply overflow-x-auto p-3 text-[13px] leading-relaxed;
+}
+
+.code-block__pre code {
+  @apply block font-mono whitespace-pre;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* 行内代码 */
+.markdown-body :not(pre) > code {
+  @apply rounded-md bg-slate-200/80 px-1.5 py-0.5 font-mono text-[0.85em] text-rose-600
+    dark:bg-white/10 dark:text-cyan-300;
+}
+
+/* ---------- 高亮配色（亮色） ---------- */
+.hljs {
+  color: #334155;
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #94a3b8;
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-doctag,
+.hljs-name,
+.hljs-strong {
+  color: #7c3aed;
+  font-weight: 600;
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string {
+  color: #059669;
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #d97706;
+}
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_ {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.hljs-attr,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-property {
+  color: #0891b2;
+}
+.hljs-built_in,
+.hljs-type,
+.hljs-params {
+  color: #b45309;
+}
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: #64748b;
+}
+.hljs-deletion {
+  color: #e11d48;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+
+/* ---------- 高亮配色（暗色） ---------- */
+.dark .hljs {
+  color: #e2e8f0;
+}
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: #64748b;
+}
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-literal,
+.dark .hljs-section,
+.dark .hljs-doctag,
+.dark .hljs-name,
+.dark .hljs-strong {
+  color: #c084fc;
+}
+.dark .hljs-string,
+.dark .hljs-regexp,
+.dark .hljs-addition,
+.dark .hljs-attribute,
+.dark .hljs-meta .hljs-string {
+  color: #6ee7b7;
+}
+.dark .hljs-number,
+.dark .hljs-symbol,
+.dark .hljs-bullet,
+.dark .hljs-variable,
+.dark .hljs-template-variable,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo {
+  color: #fcd34d;
+}
+.dark .hljs-title,
+.dark .hljs-title.class_,
+.dark .hljs-title.function_ {
+  color: #7dd3fc;
+}
+.dark .hljs-attr,
+.dark .hljs-selector-class,
+.dark .hljs-selector-id,
+.dark .hljs-property {
+  color: #67e8f9;
+}
+.dark .hljs-built_in,
+.dark .hljs-type,
+.dark .hljs-params {
+  color: #fdba74;
+}
+.dark .hljs-meta,
+.dark .hljs-meta .hljs-keyword {
+  color: #94a3b8;
+}
+.dark .hljs-deletion {
+  color: #fb7185;
+}
+
+/* ---------- Markdown 正文排版 ---------- */
+
+.markdown-body {
+  @apply text-[15px] leading-7 break-words text-slate-800 dark:text-slate-200;
+}
+
+.markdown-body > *:first-child {
+  margin-top: 0;
+}
+.markdown-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body p {
+  @apply my-2;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  @apply mt-5 mb-2 font-semibold text-slate-900 dark:text-white;
+}
+.markdown-body h1 {
+  @apply text-xl;
+}
+.markdown-body h2 {
+  @apply text-lg;
+}
+.markdown-body h3 {
+  @apply text-base;
+}
+
+.markdown-body ul {
+  @apply my-2 list-disc space-y-1 pl-6;
+}
+.markdown-body ol {
+  @apply my-2 list-decimal space-y-1 pl-6;
+}
+.markdown-body li > p {
+  @apply my-0;
+}
+
+.markdown-body a {
+  @apply text-brand-600 underline decoration-brand-400/60 underline-offset-2 hover:text-brand-500
+    dark:text-cyan-300 dark:decoration-cyan-400/50;
+}
+
+.markdown-body blockquote {
+  @apply my-3 border-l-4 border-brand-400/70 bg-brand-50/60 py-2 pl-3 text-slate-600
+    dark:border-cyan-400/50 dark:bg-white/5 dark:text-slate-300;
+}
+
+.markdown-body hr {
+  @apply my-4 border-slate-200 dark:border-white/10;
+}
+
+.markdown-body table {
+  @apply my-3 w-full border-collapse overflow-hidden text-sm;
+}
+.markdown-body th,
+.markdown-body td {
+  @apply border border-slate-200 px-3 py-1.5 text-left dark:border-white/10;
+}
+.markdown-body th {
+  @apply bg-slate-100 font-semibold dark:bg-white/10;
+}
+.markdown-body tr:nth-child(even) td {
+  @apply bg-slate-50/70 dark:bg-white/[0.03];
+}
+
+.markdown-img {
+  @apply my-3 max-h-80 rounded-xl border border-slate-200 dark:border-white/10;
+}
+
+.markdown-body input[type='checkbox'] {
+  @apply mr-1.5;
+}

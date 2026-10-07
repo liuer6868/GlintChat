@@ -1,0 +1,31 @@
+/**
+ * 宿主项目样式入口
+ * ---------------------------------------------------------------------------
+ * 两个关键点：
+ * 1. 先 `@import 'tailwindcss'`，再引入 @glintchat/vue 的设计系统；
+ * 2. Tailwind v4 默认不跟随 node_modules 的符号链接扫描源码，
+ *    lib.css 内部已用 @source 声明了本包组件目录，这里再补上宿主自己的源码范围。
+ *
+ * 也可以不用库自带样式：把 lib.css 复制一份按你的设计规范改，
+ * 面板用到的类名固定为 .card/.btn*/.field/.markdown-body/.code-block/.hljs-* 等。
+ */
+@import 'tailwindcss';
+@import '../../packages/vue/src/styles/lib.css';
+
+/* 宿主要用 dark: 变体时需自己声明（Tailwind v4 要求在使用方 CSS 里定义） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 宿主自己的源码扫描范围 */
+@source '../';
+
+/* ------------------------------ 宿主页面样式 ------------------------------ */
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  @apply bg-slate-100 text-slate-800 antialiased dark:bg-ink-900 dark:text-slate-200;
+}

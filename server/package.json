@@ -1,0 +1,27 @@
+{
+  "name": "@glintchat/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GlintChat 后端：无状态 API 代理，负责与大模型服务商通信并透传 SSE 流",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.1",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.3"
+  }
+}

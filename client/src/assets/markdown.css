@@ -1,0 +1,6 @@
+/**
+ * Markdown 排版与代码高亮样式
+ * 已统一抽到 @glintchat/vue 的 lib.css（库与宿主共用），这里只做转发，
+ * 保持 main.ts 里原有的 import 路径不变。
+ */
+@import '../../../packages/vue/src/styles/lib.css';
