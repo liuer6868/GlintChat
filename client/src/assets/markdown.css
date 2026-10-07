@@ -1,6 +1,13 @@
 /**
  * Markdown 排版与代码高亮样式
- * 已统一抽到 @glintchat/vue 的 lib.css（库与宿主共用），这里只做转发，
- * 保持 main.ts 里原有的 import 路径不变。
+ * ---------------------------------------------------------------------------
+ * 这些样式已统一抽到 @glintchat/vue 的 styles/lib.css，
+ * 由 ./main.css 作为唯一入口引入（Tailwind 需要在一个入口里统一编译 @apply，
+ * 否则单独编译本文件会因为缺少 @import 'tailwindcss' 上下文而报
+ * "Cannot apply unknown utility class"）。
+ *
+ * 本文件保留为空转发，是为了不改变 main.ts 里既有的 import 顺序。
+ * 如果你要单独使用它（没有先 import main.css），请自己补上：
+ *   @import 'tailwindcss';
+ *   @import '../../../packages/vue/src/styles/lib.css';
  */
-@import '../../../packages/vue/src/styles/lib.css';

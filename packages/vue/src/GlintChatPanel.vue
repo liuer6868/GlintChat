@@ -10,7 +10,7 @@
  * - 不注册全局快捷键、不监听 window resize（避免抢占宿主行为）；
  * - 所有依赖（apiBase / 命名空间 / 存储 / 模型）都来自 props，可多实例共存。
  */
-import { computed, onMounted, provide, ref, toRef, watch } from 'vue';
+import { computed, onMounted, ref, toRef, watch } from 'vue';
 import ChatArea from './ChatArea.vue';
 import ConfirmDialog from './ConfirmDialog.vue';
 import PanelHeader from './PanelHeader.vue';
@@ -19,7 +19,6 @@ import SystemPromptDialog from './SystemPromptDialog.vue';
 import { createGlintChatContext, provideGlintChat } from '../context';
 import { createChatController } from '../composables/useChat';
 import { createConfirmService, provideConfirm } from '../composables/useConfirm';
-import { renderMarkdown as defaultRenderMarkdown } from '../core/markdown';
 import type { ChatMessage, ChatSession, PublicModel } from '../core/types';
 import { DEFAULT_NAMESPACE, DEFAULT_SYSTEM_PROMPT } from '../core/types';
 

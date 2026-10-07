@@ -1,4 +1,4 @@
-# dependencies
+# 依赖
 node_modules/
 .pnpm-store/
 .npm-cache/
@@ -6,27 +6,27 @@ node_modules/
 # 项目内便携版 Node（由 scripts/setup-node.ps1 下载，体积大，不入库）
 .tools/
 
-# build output
+# 构建产物
 dist/
 *.tsbuildinfo
 
-# env
+# 环境变量（只提交 .env.example 模板）
 .env
 .env.local
 !.env.example
 
-# logs
+# 日志
 *.log
 npm-debug.log*
 pnpm-debug.log*
 
-# editor / os
+# 编辑器 / 系统
 .vscode/*
 !.vscode/extensions.json
 .idea/
 .DS_Store
 Thumbs.db
 
-# 截图 / 临时产物
-screenshots/
+# 临时产物
+# 注意：docs/screenshots/ 是 README 引用的文档截图，需要入库，不要忽略
 .tmp/

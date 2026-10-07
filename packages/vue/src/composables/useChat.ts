@@ -20,7 +20,6 @@ import {
   DEFAULT_SYSTEM_PROMPT,
   type ChatMessage,
   type ChatSession,
-  type MessageStatus,
   type PublicModel,
 } from '../core/types';
 import { uuid } from '../core/uuid';

@@ -6,11 +6,12 @@
  * 2. Tailwind v4 默认不跟随 node_modules 的符号链接扫描源码，
  *    lib.css 内部已用 @source 声明了本包组件目录，这里再补上宿主自己的源码范围。
  *
- * 也可以不用库自带样式：把 lib.css 复制一份按你的设计规范改，
- * 面板用到的类名固定为 .card/.btn*/.field/.markdown-body/.code-block/.hljs-* 等。
+ * 也可以不用库自带样式：把 lib.css 复制一份按你的设计规范改。
+ * 面板用到的类名是固定的（card、btn 系列、field、markdown-body、code-block、hljs 高亮类）。
  */
 @import 'tailwindcss';
-@import '../../packages/vue/src/styles/lib.css';
+/* 引入库的设计系统（本仓库内用相对路径；发布形态下写 @import '@glintchat/vue/style.css'） */
+@import '../../../packages/vue/src/styles/lib.css';
 
 /* 宿主要用 dark: 变体时需自己声明（Tailwind v4 要求在使用方 CSS 里定义） */
 @custom-variant dark (&:where(.dark, .dark *));
